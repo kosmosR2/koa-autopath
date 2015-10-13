@@ -2,8 +2,8 @@ var readDir = require('read-lib');
 var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
 
 
-module.exports = function(routeDirPath,ignore){
-  var routers = readDir(routeDirPath);
+module.exports = function(routeDirPath,dirPath,ignore){
+  var routers = readDir(routeDirPath,dirPath);
   return function(req,res,next){
     var paths = req.baseUrl.split('/');
  	  paths = paths.filter(function(v){
@@ -14,7 +14,7 @@ module.exports = function(routeDirPath,ignore){
 		  }
 	  });
 	  var method = req.method.toLowerCase();
-	  var handler = getQueryRoute(ignore)(paths,routers);
+	  var handler = getQueryRoute(ignore,routers)(paths);
 	  if(handler && handler[method]){
 		  return handler[method](req,res,next);
 	  }else{
