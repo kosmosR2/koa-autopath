@@ -13,6 +13,9 @@ module.exports = function(routeDirPath,dirPath,ignore){
 			  return true;
 		  }
 	  });
+    if(paths == []){
+      return routers['index'][method](req,res,next);
+    }
 	  var method = req.method.toLowerCase();
 	  var handler = getQueryRoute(ignore,routers)(paths);
 	  if(handler && handler[method]){
