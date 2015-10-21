@@ -13,11 +13,13 @@ module.exports = function(routeDirPath,dirPath,ignore){
 			  return true;
 		  }
 	  });
-    if(paths == []){
-      return routers['index'][method](req,res,next);
+ 	  var method = req.method.toLowerCase();
+    var handler;
+    if(paths.length == 0){
+      handler =  routers['index'];
+    }else{
+      handler = getQueryRoute(ignore,routers)(paths);
     }
-	  var method = req.method.toLowerCase();
-	  var handler = getQueryRoute(ignore,routers)(paths);
 	  if(handler && handler[method]){
 		  return handler[method](req,res,next);
 	  }else{
