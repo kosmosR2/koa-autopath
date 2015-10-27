@@ -21,7 +21,7 @@ module.exports = function(routeDirPath,dirPath,ignore){
     if(paths.length == 0){
       handler =  routers['index'];
     }else{
-      handler = handlers[paths];
+      handler = handlers(paths);
     }
 	  if(handler && handler[method]){
 		  return handler[method](kos);

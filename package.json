@@ -1,6 +1,6 @@
 {
     "name": "koa-autopath",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "export route with file path",
     "author": "misasagi kosmos",
     "repository": "git@github.com:kosmosR2/koa-autopath.git",
