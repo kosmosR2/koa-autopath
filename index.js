@@ -4,8 +4,11 @@ var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
 
 module.exports = function(routeDirPath,dirPath,ignore){
   var routers = readDir(routeDirPath,dirPath);
-  return function(req,res,next){
-    var paths = req.baseUrl.split('/');
+  var handlers = getQueryRoute(ignore,routers);
+  console.log(routers);
+  return function*(next){
+    var kos = this;
+    var paths = this.request.url.split('?')[0].split('/');
  	  paths = paths.filter(function(v){
 		  if(v == ""){
 			  return false;
@@ -13,20 +16,21 @@ module.exports = function(routeDirPath,dirPath,ignore){
 			  return true;
 		  }
 	  });
- 	  var method = req.method.toLowerCase();
+ 	  var method = this.request.method.toLowerCase();
     var handler;
     if(paths.length == 0){
       handler =  routers['index'];
     }else{
-      handler = getQueryRoute(ignore,routers)(paths);
+      handler = handlers[paths];
     }
 	  if(handler && handler[method]){
-		  return handler[method](req,res,next);
+		  return handler[method](kos);
 	  }else{
-		  return next();
+		  yield next;
 	  }
   };
 };
+
 
 function isObjectId(id){
   if(id == null) return false;
@@ -56,5 +60,4 @@ function getQueryRoute(ignore,routers){
 	  return pointer;
   };
 }
-
 
