@@ -24,7 +24,7 @@ module.exports = function(routeDirPath,dirPath,ignore){
       handler = handlers(paths);
     }
 	  if(handler && handler[method]){
-		  return handler[method](kos);
+		  yield handler[method](kos);
 	  }else{
 		  yield next;
 	  }
