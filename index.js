@@ -37,7 +37,7 @@ function isObjectId(id){
   if(typeof id == 'number')
     return true;
   if(typeof id == 'string') {
-    return id.length == 12 || (id.length == 24 && checkForHexRegExp.test(id));
+    return id.length == 24 && checkForHexRegExp.test(id);
   }
   return false;
 }
